@@ -52,7 +52,6 @@
             this.listSalas.Name = "listSalas";
             this.listSalas.Size = new System.Drawing.Size(228, 229);
             this.listSalas.TabIndex = 1;
-            this.listSalas.SelectedIndexChanged += new System.EventHandler(this.listSalas_SelectedIndexChanged);
             // 
             // update
             // 

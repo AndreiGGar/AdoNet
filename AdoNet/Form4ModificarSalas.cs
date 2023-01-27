@@ -50,9 +50,11 @@ namespace AdoNet
             string selected = this.listSalas.SelectedItem.ToString();
             if (box != "")
             {
-                string sql = "UPDATE SALA SET NOMBRE=@NOMBRE WHERE NOMBRE='" + selected + "'";
-                SqlParameter query = new SqlParameter("@NOMBRE", box);
-                this.com.Parameters.Add(query);
+                string sql = "UPDATE SALA SET NOMBRE=@NOMBRE WHERE NOMBRE=@OLDNAME";
+                SqlParameter paramnew = new SqlParameter("@NOMBRE", box);
+                SqlParameter paramold = new SqlParameter("@OLDNAME", selected);
+                this.com.Parameters.Add(paramnew);
+                this.com.Parameters.Add(paramold);
                 this.com.CommandType = CommandType.Text;
                 this.com.CommandText = sql;
                 this.cn.Open();
@@ -63,11 +65,6 @@ namespace AdoNet
                 this.LoadSalas();
             }
             this.textBox1.Text = "";
-        }
-
-        private void listSalas_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }
