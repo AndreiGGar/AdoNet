@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AdoNet.Models;
+using AdoNet.Repositories;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -13,33 +15,38 @@ namespace AdoNet
 {
     public partial class Form10HospitalEmpleados : Form
     {
-        SqlConnection cn;
-        SqlCommand com;
-        SqlDataReader reader;
+        private RepositoryHospital repo;
         public Form10HospitalEmpleados()
         {
             InitializeComponent();
-            string connectionString = @"Data Source=LOCALHOST\DESARROLLO;Initial Catalog=HOSPITAL;User ID=sa;Password=";
-            this.cn = new SqlConnection(connectionString);
-            this.com = new SqlCommand();
-            this.com.Connection = this.cn;
+            this.repo = new RepositoryHospital();
             this.LoadHospitals();
         }
 
         public void LoadHospitals()
         {
-            this.com.CommandType = CommandType.StoredProcedure;
-            this.com.CommandText = "SP_HOSPITALES";
-            this.cn.Open();
-            this.reader = this.com.ExecuteReader();
-            this.hospitals.Items.Clear();
-            while (this.reader.Read())
+            List<string> hospitales = this.repo.GetHospitales();
+            foreach (string hospital in hospitales)
             {
-                string nombre = this.reader["NOMBRE"].ToString();
-                this.hospitals.Items.Add(nombre);
+                this.hospitals.Items.Add(hospital);
             }
-            this.reader.Close();
-            this.cn.Close();
+        }
+
+        private void hospitals_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (this.hospitals.SelectedIndex != -1)
+            {
+                string nombreHospital = this.hospitals.SelectedItem.ToString();
+                DatosHospital datos = this.repo.GetDatosHospital(nombreHospital);
+                this.listEmpleados.Items.Clear();
+                foreach (EmpleadoHospital empleadoHospital in datos.Empleados)
+                {
+                    this.listEmpleados.Items.Add(empleadoHospital.Apellido + " / " + empleadoHospital.Salario);
+                }
+                this.suma.Text = datos.SumaSalarial.ToString();
+                this.media.Text = datos.MediaSalarial.ToString();
+                this.personas.Text = datos.Personas.ToString();
+            }
         }
     }
 }

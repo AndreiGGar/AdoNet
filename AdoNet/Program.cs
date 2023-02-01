@@ -20,7 +20,8 @@ namespace AdoNet
             // Application.Run(new Form7ProcedureUpdatePlantilla());
             // Application.Run(new Form8MensajesServidor());
             // Application.Run(new Form9ParamsSalida());
-            Application.Run(new Form10HospitalEmpleados());
+            // Application.Run(new Form10HospitalEmpleados());
+            Application.Run(new Form11EmpleadosOficios());
         }
     }
 }

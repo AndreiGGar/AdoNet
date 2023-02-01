@@ -132,6 +132,7 @@
             this.hospitals.Name = "hospitals";
             this.hospitals.Size = new System.Drawing.Size(169, 23);
             this.hospitals.TabIndex = 11;
+            this.hospitals.SelectedIndexChanged += new System.EventHandler(this.hospitals_SelectedIndexChanged);
             // 
             // Form10HospitalEmpleados
             // 
