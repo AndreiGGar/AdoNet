@@ -31,6 +31,22 @@ namespace AdoNet
             }
         }
 
+        private void LoadEmpleados()
+        {
+            string nombreOficio = this.oficios.SelectedItem.ToString();
+            DatosOficios datos = this.repo.GetDatosOficio(nombreOficio);
+            this.listEmpleados.Items.Clear();
+            foreach (EmpleadosOficio empleadoOficio in datos.Empleados)
+            {
+                ListViewItem lv = new ListViewItem();
+                lv.Text = empleadoOficio.Apellido;
+                lv.SubItems.Add(empleadoOficio.Oficio);
+                lv.SubItems.Add(empleadoOficio.Salario.ToString());
+                lv.SubItems.Add(empleadoOficio.IdEmpleado.ToString()); //CUARTA COLUMN, SUBITEM 3
+                this.listEmpleados.Items.Add(lv);
+            }
+        }
+
         private void oficios_SelectedIndexChanged(object sender, EventArgs e)
         {
             /*if (this.oficios.SelectedIndex != -1)
@@ -52,33 +68,15 @@ namespace AdoNet
                 string nombreOficio = this.oficios.SelectedItem.ToString();
                 ListViewItem it = this.listEmpleados.SelectedItems[0];
                 string idEmpleado = it.SubItems[3].Text;
-                //DatosOficios datos = this.repo.GetDatosOficio(nombreOficio);
-                MessageBox.Show(idEmpleado.ToString());
+                // MessageBox.Show(idEmpleado.ToString());
             }
-            /*DatosOficios datos = this.repo.GetDatosOficio(nombreOficio);
-            this.listEmpleados.Items.Clear();
-            foreach (EmpleadosOficio empleadoOficio in datos.Empleados)
-            {
-                MessageBox.Show(empleadoOficio.IdEmpleado.ToString());
-            }*/
         }
 
         private void show_Click(object sender, EventArgs e)
         {
             if (this.oficios.SelectedIndex != -1)
             {
-                string nombreOficio = this.oficios.SelectedItem.ToString();
-                DatosOficios datos = this.repo.GetDatosOficio(nombreOficio);
-                this.listEmpleados.Items.Clear();
-                foreach (EmpleadosOficio empleadoOficio in datos.Empleados)
-                {
-                    ListViewItem lv = new ListViewItem();
-                    lv.Text = empleadoOficio.Apellido;
-                    lv.SubItems.Add(empleadoOficio.Oficio);
-                    lv.SubItems.Add(empleadoOficio.Salario.ToString());
-                    lv.SubItems.Add(empleadoOficio.IdEmpleado.ToString()); //CUARTA COLUMN, SUBITEM 3
-                    this.listEmpleados.Items.Add(lv);
-                }
+                this.LoadEmpleados();
             }
         }
 
@@ -91,12 +89,20 @@ namespace AdoNet
                 string idEmpleado = it.SubItems[3].Text;
                 DatosOficios datos = this.repo.GetDatosOficio(nombreOficio, 0, int.Parse(idEmpleado));
                 MessageBox.Show("Borrado el empleado " + idEmpleado);
+                this.LoadEmpleados();
             }
         }
 
         private void incrementar_Click(object sender, EventArgs e)
         {
-
+            if (this.oficios.SelectedIndex != -1)
+            {
+                string nombreOficio = this.oficios.SelectedItem.ToString();
+                string incremento = this.incremento.Text;
+                DatosOficios datos = this.repo.GetDatosOficio(nombreOficio, int.Parse(incremento));
+                MessageBox.Show("Sumado al salario " + incremento);
+                this.LoadEmpleados();
+            }
         }
     }
 }

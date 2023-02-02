@@ -1,3 +1,4 @@
 {
-  "SqlHospital": "Data Source=LOCALHOST\\DESARROLLO;Initial Catalog=HOSPITAL;User ID=sa;Password="
+  "SqlHospital": "Data Source=LOCALHOST\\DESARROLLO;Initial Catalog=HOSPITAL;User ID=sa;Password=",
+  "SqlHospitalHome": "Data Source=BLOODCADENCEPC\\SQLEXPRESS;Initial Catalog=HOSPITAL;User ID=sa;Password="
 }

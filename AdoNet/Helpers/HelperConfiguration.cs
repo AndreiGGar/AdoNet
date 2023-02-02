@@ -13,7 +13,7 @@ namespace AdoNet.Helpers
         {
             IConfigurationBuilder builder = new ConfigurationBuilder().AddJsonFile("config.json", true, true);
             IConfiguration config = builder.Build();
-            string connectionString = config["SqlHospital"];
+            string connectionString = config["SqlHospitalHome"];
             return connectionString;
         }
     }
